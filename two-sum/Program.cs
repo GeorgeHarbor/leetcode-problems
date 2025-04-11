@@ -40,3 +40,28 @@ static int[] TwoSums(int[] nums, int target)
 }
 var result = TwoSums(nums, target);
 Console.WriteLine(string.Join(", ", result));
+
+
+static int[] TwoSums2(int[] nums, int target)
+{
+  var previousNumbers = new Dictionary<int, int>
+  {
+    [nums[0]] = 0
+  };
+
+  for (var i = 1; i < nums.Length; i++)
+  {
+    if (previousNumbers.ContainsKey(target - nums[i]))
+    {
+      return [previousNumbers[target - nums[i]], i];
+    }
+
+    previousNumbers[nums[i]] = i;
+  }
+
+  return [];
+}
+
+
+var result2 = TwoSums2(nums, target);
+Console.WriteLine(string.Join(", ", result2));
