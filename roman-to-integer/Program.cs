@@ -1,50 +1,37 @@
-﻿namespace roman_to_integer;
-
-public static class Solution
+﻿namespace roman_to_integer
 {
-
-  public static int RomanToInt(string s)
+  public class Solution
   {
-
-    if (s.Length == 0) return 0;
-    var number = 0;
-
-    for (var i = 0; i < s.Length; i++)
+    static public int RomanToInt(string s)
     {
+      int total = 0;
+      int prevValue = 0;
 
-      var p1 = romanDict[s[i]];
-      var p2 = i != s.Length - 1 ? romanDict[s[i + 1]] : 0;
-
-      if (p2 > p1)
+      for (int i = s.Length - 1; i >= 0; i--)
       {
-        number += p2 - p1;
-        i++;
-      }
-      else
-      {
-        number += p1;
-      }
+        int currentValue = s[i] switch
+        {
+          'I' => 1,
+          'V' => 5,
+          'X' => 10,
+          'L' => 50,
+          'C' => 100,
+          'D' => 500,
+          'M' => 1000,
+          _ => 0
+        };
 
+        if (currentValue < prevValue)
+        {
+          total -= currentValue;
+        }
+        else
+        {
+          total += currentValue;
+        }
+        prevValue = currentValue;
+      }
+      return total;
     }
-    return number;
-  }
-
-  private static readonly Dictionary<char, int> romanDict = new() {
-    {'I', 1},
-    {'V', 5},
-    {'X', 10},
-    {'L', 50},
-    {'C', 100},
-    {'D', 500},
-    {'M', 1000},
-  };
-
-}
-
-public class Program
-{
-  static void Main()
-  {
-    Console.WriteLine(Solution.RomanToInt("MCMXCIV"));
   }
 }
